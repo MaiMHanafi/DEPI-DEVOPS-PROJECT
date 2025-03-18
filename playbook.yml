@@ -2,7 +2,7 @@
 - name: Setup DevOps Tools and Configure SMTP Server
   hosts: all
   become: yes
-    vars:
+  vars:
     smtp_email: "maihanafi34@gmail.com"
     smtp_password: "PASS"
     
