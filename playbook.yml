@@ -2,17 +2,11 @@
 - name: Setup DevOps Tools and Configure SMTP Server
   hosts: all
   become: yes
-  vars_prompt:
-    - name: smtp_email
-      prompt: "Enter your SMTP email (e.g., your_email@gmail.com)"
-      private: no
-
-    - name: smtp_password
-      prompt: "Enter your SMTP app password"
-      private: yes
-
+    vars:
+    smtp_email: "maihanafi34@gmail.com"
+    smtp_password: "PASS"
+    
   tasks:
-
     - name: Create templates directory
       file:
         path: "~/DEPI-DEVOPS/DEPI-DEVOPS-PROJECT/templates"
