@@ -2,9 +2,10 @@
 - name: Setup DevOps Tools and Configure SMTP Server
   hosts: all
   become: yes
-  vars:
-    smtp_email: "maihanafi34@gmail.com"
-    smtp_password: "PASS"
+  vars_files:
+    - vault.yml
+    #smtp_email: "maihanafi34@gmail.com"
+    #smtp_password: "PASS"
     
   tasks:
     - name: Create templates directory
