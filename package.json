@@ -1,22 +1,16 @@
 {
-  "name": "mern-task-manager",
+  "name": "depi-devops-project",
   "version": "1.0.0",
-  "description": "A MERN application for basic tasks management",
-  "main": "index.js",
-  "scripts": {
-    "dev-server": "npm run dev --prefix backend",
-    "dev-client": "npm start --prefix frontend",
-    "dev": "concurrently \"npm run dev-server\" \"npm run dev-client\"",
-    "install-all": "npm install && npm install --prefix frontend && npm install --prefix backend",
-    "heroku-postbuild": "npm install --prefix frontend && npm run build --prefix frontend && npm install --prefix backend",
-    "build": "npm install --prefix frontend && npm run build --prefix frontend && npm install --prefix backend",
-    "start": "cd backend && node app.js",
-    "test": "echo \"No tests specified\" && exit 0"
+  "private": true,
+  "dependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "react-scripts": "^5.0.1"
   },
-  "keywords": ["MERN", "Tasks","Task manager", "Full stack application"],
-  "author": "Aayush",
-  "license": "ISC",
-  "devDependencies": {
-    "concurrently": "^7.1.0"
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   }
 }
