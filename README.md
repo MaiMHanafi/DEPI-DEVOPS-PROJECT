@@ -9,6 +9,7 @@ This project is part of the Digital Egypt Pioneers Initiative (DEPI) DevOps Trac
 - **CI/CD with Jenkins**: Automated build, testing, and deployment using Jenkins.
 
 ## Technologies Used
+- **Database**: MongoDB
 - **Backend**: Python (Flask)
 - **Frontend**: React.js
 - **Containerization**: Docker, Docker Compose
