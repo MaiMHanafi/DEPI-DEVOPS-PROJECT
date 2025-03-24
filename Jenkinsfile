@@ -22,7 +22,7 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 dir(REPO_DIR) {
-                    sh "npm install"
+                    sh "npm run install-all"
                 }
             }
         }
