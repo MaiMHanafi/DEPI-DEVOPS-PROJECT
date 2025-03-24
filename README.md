@@ -4,11 +4,14 @@
 This project is part of the Digital Egypt Pioneers Initiative (DEPI) DevOps Track. It involves containerizing a full-stack web application and automating its deployment using Jenkins.
 
 ## Features
+- **Automated Server Setup with Ansible**: An Ansible playbook is used to install requirements and prerequisites to prepare the machine.
+- **Email Notifications via Ansible Role**: An Ansible role is implemented to set up a mail server that sends email notifications after both successful and failed deployments.
 - **Frontend & Backend Dockerization**: The application is containerized using Docker for both frontend and backend services.
 - **Docker Compose**: A `docker-compose.yml` file is used to orchestrate multi-container deployment.
 - **CI/CD with Jenkins**: Automated build, testing, and deployment using Jenkins.
 
 ## Technologies Used
+- **Configuration Management**: Ansible
 - **Database**: MongoDB
 - **Backend**: Python (Flask)
 - **Frontend**: React.js
@@ -98,6 +101,13 @@ volumes:
 ```
 
 ## Jenkins CI/CD Pipeline
+
+### Ansible Automation
+Ansible is used to automate server setup and deployment notifications:
+- **Setup Playbook**: Installs dependencies and prerequisites.
+- **Mail Server Role**: Configures an SMTP mail server to send notifications on deployment status.
+
+For more details, check the Ansible configuration repository: [SMT-Configuration](https://github.com/MaiMHanafi/SMT-Configuration.git)
 A `Jenkinsfile` is used for automating the build, testing, and deployment process:
 
 ```groovy
