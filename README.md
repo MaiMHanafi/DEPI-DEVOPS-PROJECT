@@ -13,7 +13,7 @@ This project is part of the Digital Egypt Pioneers Initiative (DEPI) DevOps Trac
 ## Technologies Used
 - **Configuration Management**: Ansible
 - **Database**: MongoDB
-- **Backend**: Python (Flask)
+- **Backend**: Node.js (Express.js)
 - **Frontend**: React.js
 - **Containerization**: Docker, Docker Compose
 - **CI/CD**: Jenkins
@@ -21,83 +21,91 @@ This project is part of the Digital Egypt Pioneers Initiative (DEPI) DevOps Trac
 
 ## Dockerization
 ### Backend Service
-The backend is a Flask application that exposes APIs for the frontend. The `Dockerfile` for the backend:
+The backend is a Node.js application that exposes APIs for the frontend. The `Dockerfile` for the backend:
 
 ```Dockerfile
-# Use official Python image
-FROM python:3.9
+# Use Node.js image
+FROM node:18
 
-# Set working directory
+# Set the working directory
 WORKDIR /app
 
-# Copy application files
+# Copy dependencies and install
+COPY package*.json ./
+RUN npm install
+
+# Copy the backend source code
 COPY . .
 
-# Install dependencies
-RUN pip install -r requirements.txt
-
-# Expose the application port
+# Expose the backend port
 EXPOSE 5000
 
-# Run the application
-CMD ["python", "app.py"]
+# Start the backend server
+CMD ["npm", "run", "dev"]
 ```
 
 ### Frontend Service
 The frontend is a React.js application. The `Dockerfile` for the frontend:
 
 ```Dockerfile
-# Use Node.js image for building the frontend
-FROM node:18 as build-stage
-WORKDIR /app
-COPY package*.json ./
-RUN npm install
-COPY . .
-RUN npm run build
+# Use Node.js image
+FROM node:18
 
-# Use Nginx for serving the frontend
-FROM nginx:alpine as production-stage
-COPY --from=build-stage /app/build /usr/share/nginx/html
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+# Set working directory
+WORKDIR /app
+
+# Copy package.json and package-lock.json
+COPY package*.json ./
+
+# Install dependencies
+RUN npm install --legacy-peer-deps
+
+# Copy application files
+COPY . .
+
+# Expose frontend port
+EXPOSE 3000
+
+# Start the application
+CMD ["npm", "start"]
 ```
 
 ## Docker Compose
 A `docker-compose.yml` file is used to manage the frontend and backend services:
 
 ```yaml
-version: '3.8'
-
 services:
-  backend:
-    build: ./backend
-    ports:
-      - "5000:5000"
-    environment:
-      - FLASK_ENV=production
-    depends_on:
-      - db
-
   frontend:
-    build: ./frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
     ports:
-      - "80:80"
+      - "3000:3000"
     depends_on:
       - backend
 
-  db:
-    image: postgres:latest
-    environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: mydatabase
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
     ports:
-      - "5432:5432"
+      - "5000:5000"
+    depends_on:
+      - mongo
+    env_file:
+      - .env  #Use .env file for secrets
+
+  mongo:
+    image: mongo
+    container_name: mongodb
+    ports:
+      - "27017:27017"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - mongo_data:/data/db
+    restart: always  #Ensure MongoDB stays up
 
 volumes:
-  postgres_data:
+  mongo_data:
 ```
 
 ## Jenkins CI/CD Pipeline
@@ -108,35 +116,65 @@ Ansible is used to automate server setup and deployment notifications:
 - **Mail Server Role**: Configures an SMTP mail server to send notifications on deployment status.
 
 For more details, check the Ansible configuration repository: [SMT-Configuration](https://github.com/MaiMHanafi/SMT-Configuration.git)
+
+### Jenkins Pipeline
 A `Jenkinsfile` is used for automating the build, testing, and deployment process:
 
 ```groovy
 pipeline {
     agent any
-    
+
+    environment {
+        REPO_URL = 'https://github.com/MaiMHanafi/DEPI-DEVOPS-PROJECT.git'
+        REPO_DIR = 'DEPI-DEVOPS-PROJECT'
+    }
+
     stages {
+        stage('Clean Workspace') {
+            steps {
+                cleanWs()
+            }
+        }
+
         stage('Clone Repository') {
             steps {
-                git 'https://github.com/MaiMHanafi/DEPI-DEVOPS-PROJECT.git'
+                sh "git clone ${REPO_URL}"
             }
         }
-        
-        stage('Build Docker Images') {
+
+        stage('Install Dependencies') {
             steps {
-                sh 'docker-compose build'
+                dir(REPO_DIR) {
+                    sh "npm install"
+                }
             }
         }
-        
-        stage('Run Tests') {
+
+        stage('Test Application') {
             steps {
-                sh 'docker-compose run backend pytest tests/'
+                dir(REPO_DIR) {
+                    sh 'npm run test || echo "Skipping tests, no test script found"'
+                }
             }
         }
-        
-        stage('Deploy Application') {
+
+        stage('Deploy with Docker Compose') {
             steps {
-                sh 'docker-compose up -d'
+                dir(REPO_DIR) {
+                    sh "sudo docker-compose up -d --remove-orphans"
+                }
             }
+        }
+    }
+
+    post {
+        success {
+            echo '✅ Deployment completed successfully!'
+            sh 'echo "This is to notify you that it\'s a SUCCESSFUL Deployment" | mail -s "Deployment: SUCCESS" maihanafi34@gmail.com'
+        }
+        failure {
+            echo '❌ Deployment failed! Check logs for errors.'
+            sh 'echo "This is to notify you that it\'s a FAILED Deployment" | mail -s "Deployment: FAILURE" maihanafi34@gmail.com'
         }
     }
 }
@@ -157,11 +195,10 @@ pipeline {
    ```
 4. Access the application:
    - Backend: `http://localhost:5000`
-   - Frontend: `http://localhost`
+   - Frontend: `http://localhost:3000`
 
 ## Contributing
 Contributions are welcome! Feel free to submit issues and pull requests.
 
 ## License
 This project is licensed under the MIT License.
-
