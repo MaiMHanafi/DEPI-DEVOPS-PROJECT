@@ -19,6 +19,14 @@ pipeline {
             }
         }
 
+        stage('Run Ansible Playbook') {
+            steps {
+                dir(REPO_DIR) {
+                    sh "sudo ansible-playbook -i inventory playbook.yml --vault-password-file ./vault_pass.txt -vvv"
+                }
+            }
+        }
+
         stage('Install Dependencies') {
             steps {
                 dir(REPO_DIR) {
