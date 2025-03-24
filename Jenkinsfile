@@ -38,7 +38,7 @@ pipeline {
         stage('Deploy with Docker Compose') {
             steps {
                 dir(REPO_DIR) {
-                    sh "sudo docker-compose up -d --remove-orphans"
+                    sh "sudo docker-compose up --build -d --remove-orphans"
                 }
             }
         }
