@@ -1,9 +1,0 @@
----
-- name: Deploy DevOps and SMTP Setup
-  hosts: all
-  become: yes
-  vars_files:
-    - roles/Mail_configurations/vault.yml
-  roles:
-    - Machine_requirements
-    - Mail_configurations

@@ -1,8 +1,0 @@
----
-- name: Restart Postfix
-  systemd:
-    name: postfix
-    state: restarted
-
-- name: Secure and Compile Authentication File
-  command: postmap /etc/postfix/sasl_passwd
