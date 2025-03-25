@@ -19,18 +19,10 @@ pipeline {
             }
         }
 
-        stage('Run Ansible Playbook') {
-            steps {
-                dir(REPO_DIR) {
-                    sh 'sudo ansible-playbook -i inventory playbook.yml --vault-password-file ./vault_pass.txt'
-                }
-            }
-        }
-
         stage('Install Dependencies') {
             steps {
                 dir(REPO_DIR) {
-                    sh "npm install"
+                    sh "npm run install-all"
                 }
             }
         }
@@ -46,7 +38,7 @@ pipeline {
         stage('Deploy with Docker Compose') {
             steps {
                 dir(REPO_DIR) {
-                    sh "sudo docker-compose up -d --remove-orphans"
+                    sh "sudo docker-compose up --build -d --remove-orphans"
                 }
             }
         }
