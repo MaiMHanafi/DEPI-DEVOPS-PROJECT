@@ -2,6 +2,7 @@ version: '3.8'
 
 services:
   frontend:
+    container_name: depi-devops-project-frontend
     build:
       context: ./frontend
       dockerfile: Dockerfile
@@ -11,6 +12,7 @@ services:
       - backend
 
   backend:
+    container_name: depi-devops-project-backend
     build:
       context: ./backend
       dockerfile: Dockerfile
