@@ -1,13 +1,34 @@
 # DEPI DevOps Graduation Project - Group 2 - MERN Task Manager Web Application - Containerized Deployment using Jenkins Pipeline
 
 ## Project Overview
-This project involves containerizing a MERN (MongoDB, Express, React, Node.js) task management web application and automating its deployment using Jenkins. The application source is based on [this repository](https://github.com/aayush301/MERN-task-manager.git), while the containerization and automation enhancements are implemented in [this repository](https://github.com/MaiMHanafi/DEPI-DEVOPS-PROJECT.git).
+This project involves containerizing a MERN (MongoDB, Express, React, Node.js) task management web application and automating its deployment using Jenkins. The application source is based on [Project repository](https://github.com/aayush301/MERN-task-manager.git), while the containerization and automation enhancements are implemented in [pre-requisistes repository](https://github.com/MaiMHanafi/DEPI-DEVOPS-PROJECT.git).
+
+The project provides a **hands-on implementation of a fully automated CI/CD pipeline** using a modern DevOps tech stack. It demonstrates how to seamlessly integrate **Jenkins**, **Git**, **Docker**, **Kubernetes**, and **Ansible** to enable:
+
+- Streamlined software delivery  
+- Automated deployments  
+- Efficient configuration management  
+
+The pipeline builds and deploys a **Node.js web application** inside containerized environments, with scalability and orchestration managed through Kubernetes. The documented approach is ideal as a **reference architecture** for DevOps practitioners and learners looking to replicate or build on similar infrastructure patterns.
 
 ## Features
 - **Containerization**: Uses Docker to containerize both frontend and backend services.
 - **Orchestration**: Manages multi-container deployment using Docker Compose.
 - **CI/CD Automation**: Implements a Jenkins pipeline for automated deployment.
 - **Notifications**: Sends email notifications upon successful or failed deployments.
+
+
+## 🛠️ Technologies Used
+
+- **Jenkins** – For continuous integration and pipeline automation.  
+- **Git** – For source code version control and integration with Jenkins.  
+- **Docker** – For containerizing the Node.js application, ensuring consistency across environments.  
+- **Ansible** – For automating pre-requisites on the managed node.  
+- **Kubernetes** – For orchestrating containerized applications and enabling scalability and self-healing deployments.  
+- **Node.js** – The backend runtime environment for the application being built and deployed.
+
+---
+
 
 ## Project Structure
 ```
