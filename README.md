@@ -1,4 +1,4 @@
-# MERN Task Manager - Containerized Deployment
+# DEPI DevOps Graduation Project - Group 2 - MERN Task Manager Web Application - Containerized Deployment using Jenkins Pipeline
 
 ## Project Overview
 This project involves containerizing a MERN (MongoDB, Express, React, Node.js) task management web application and automating its deployment using Jenkins. The application source is based on [this repository](https://github.com/aayush301/MERN-task-manager.git), while the containerization and automation enhancements are implemented in [this repository](https://github.com/MaiMHanafi/DEPI-DEVOPS-PROJECT.git).
