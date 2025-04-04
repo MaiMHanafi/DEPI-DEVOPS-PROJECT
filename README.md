@@ -28,7 +28,6 @@ DEPI-DEVOPS-PROJECT/
 
 ### 2. Frontend Service
 - **Dockerfile**: Defines the React application’s container.
-- **Builds and serves the frontend** using an Nginx server.
 
 ### 3. Docker Compose
 - **docker-compose.yml**:
@@ -40,12 +39,13 @@ DEPI-DEVOPS-PROJECT/
 - **Jenkinsfile**:
   - Pulls the latest code from the repository.
   - Builds and tags Docker images.
-  - Pushes images to Docker Hub.
   - Deploys the application using Docker Compose.
-  - Sends email notifications for deployment status.
+  - Do the Tests.
+  - Sends email notifications for deployment statusin both cases of Success and Failure.
 
 ## Setup & Deployment
 ### Prerequisites
+- use this Ansible Playbook in this repo:https://github.com/MaiMHanafi/Pre-requisites-SMT-Configuration.git to install all the pre-requisites.
 - **Docker & Docker Compose** installed on the host machine.
 - **Jenkins** with necessary plugins for pipeline execution.
 - **Configured SMTP settings** for email notifications.
