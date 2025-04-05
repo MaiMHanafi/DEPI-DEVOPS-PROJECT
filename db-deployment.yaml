@@ -14,27 +14,22 @@ spec:
     spec:
       containers:
         - name: db
-          image: postgres:latest
+          image: mongo:latest # Correct image for MongoDB
           ports:
-            - containerPort: 5432
+            - containerPort: 27017 # MongoDB default port
           env:
-            - name: POSTGRES_DB
+            - name: MONGODB_URL
               valueFrom:
                 configMapKeyRef:
-                  name: db-config
-                  key: db-name
-            - name: POSTGRES_USER
+                  name: app-config
+                  key: mongodb-url
+            - name: ACCESS_TOKEN_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: db-secret
-                  key: db-user
-            - name: POSTGRES_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: db-secret
-                  key: db-password
+                  name: app-secret
+                  key: access-token-secret
           volumeMounts:
-            - mountPath: /var/lib/postgresql/data
+            - mountPath: /data/db
               name: db-storage
       volumes:
         - name: db-storage

@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: backend-deployment
+  name: depi-devops-project-backend
 spec:
   replicas: 2
   selector:
@@ -18,23 +18,14 @@ spec:
           ports:
             - containerPort: 5000
           env:
-            - name: DB_HOST
-              value: db-service
-            - name: DB_PORT
-              value: "5432"
-            - name: DB_USER
-              valueFrom:
-                secretKeyRef:
-                  name: db-secret
-                  key: db-user
-            - name: DB_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: db-secret
-                  key: db-password
-            - name: DB_NAME
+            - name: MONGODB_URL
               valueFrom:
                 configMapKeyRef:
-                  name: db-config
-                  key: db-name
+                  name: app-config
+                  key: mongodb-url
+            - name: ACCESS_TOKEN_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: access-token-secret
 

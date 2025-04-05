@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+data:
+  mongodb-url: "mongodb://db-service:27017"  # Correct MongoDB service URL
+
