@@ -1,38 +1,85 @@
-Role Name
-=========
+# 📬 Ansible Role: Postfix Gmail SMTP Setup
 
-A brief description of the role goes here.
+This Ansible role installs and configures **Postfix** to send emails using **Gmail SMTP**. It sets up authentication, manages configuration files, and ensures the correct firewall rules are in place.
 
-Requirements
-------------
+---
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+## 📁 Role Structure
 
-Role Variables
---------------
+```
+roles/
+└── postfix_gmail/
+    ├── tasks/
+    │   └── main.yml
+    ├── templates/
+    │   └── postfix_main.cf.j2
+    └── README.md
+```
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+---
 
-Dependencies
-------------
+## 🔧 Requirements
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+- Target system must be **Debian/Ubuntu-based**.
+- **UFW** (Uncomplicated Firewall) should be installed to manage port rules.
+- A valid **Gmail account** with **App Password** (if 2FA is enabled) is required.
 
-Example Playbook
-----------------
+---
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+## 🔐 Role Variables
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+| Variable        | Description                              | Example                    |
+|----------------|------------------------------------------|----------------------------|
+| `smtp_email`    | Gmail address used to send emails        | `your.email@gmail.com`     |
+| `smtp_password` | Gmail App Password for authentication    | `yourapppassword`          |
 
-License
--------
+Define these in your playbook or inventory:
 
-BSD
+```yaml
+smtp_email: your.email@gmail.com
+smtp_password: your_app_password
+```
 
-Author Information
-------------------
+---
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+## 📜 Tasks Summary
+
+- Install required packages: `postfix` and `mailutils`
+- Ensure `/etc/postfix` configuration directory exists
+- Deploy a Postfix `main.cf` configuration file via Jinja2 template
+- Configure SMTP authentication with `sasl_passwd`
+- Secure and compile the password file using `postmap`
+- Restart Postfix to apply changes
+- Open port 587 via `ufw` for SMTP communication
+
+---
+
+## 📂 Template File: `postfix_main.cf.j2`
+
+This file should contain your Postfix configuration using Jinja2 templating syntax. Example settings may include:
+
+```
+relayhost = [smtp.gmail.com]:587
+smtp_use_tls = yes
+smtp_sasl_auth_enable = yes
+smtp_sasl_password_maps = hash:/etc/postfix/sasl_passwd
+smtp_sasl_security_options = noanonymous
+smtp_tls_CAfile = /etc/ssl/certs/ca-certificates.crt
+```
+
+---
+
+## 🔒 Security Note
+
+Avoid hardcoding sensitive values (like passwords) in your playbooks. Use **Ansible Vault** to securely encrypt secrets:
+
+```bash
+ansible-vault encrypt vars.yml
+```
+
+---
+
+## ✅ Tested On
+
+- Ubuntu 20.04  
+- Ubuntu 22.04
