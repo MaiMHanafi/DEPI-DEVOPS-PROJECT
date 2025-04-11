@@ -97,3 +97,41 @@ Feel free to fork the project and contribute improvements. Submit a pull request
 ## License
 This project is licensed under the MIT License.
 
+##5. kUBERNTES 
+This kubernters cluster created on minikube.The cluster containes of:
+
+1- app-config.yaml
+2- app-secret.yaml
+3- db-persistentvolumeclaim.yaml
+4- db-deployment.yaml
+5- db-service.yaml
+6- backend-deployment.yaml
+7- backend-service.yaml
+8- frontend-deployment.yaml
+9- frontend-service.yaml
+
+
+To make the cluster up and running.use these commands in this order:
+ 
+ kubectl apply -f configmap.yaml
+ kubectl apply -f secret.yaml
+ kubectl apply -f  db-persistentvolumeclaim.yaml
+ kubectl apply -f  db-deployment.yaml
+ kubectl apply -f db-service.yaml
+ kubectl apply -f backend-deployment.yaml
+ kubectl apply -f  backend-service.yaml
+ kubectl apply -f  frontend-deployment.yaml
+ kubectl apply -f  frontend-service.yaml
+ 
+ 
+Then use this command to check all pods up and running:
+
+kubectl get all
+
+To open the webapp from browser .get the ip first using:
+
+minikube start
+
+Then use it with the node port as follow:
+
+http://192.168.49.2:30080/
