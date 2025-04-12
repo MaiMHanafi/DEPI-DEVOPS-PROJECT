@@ -1,4 +1,15 @@
 ---
+- name: Clean and update apt cache
+  apt:
+    update_cache: yes
+    autoclean: yes
+    autoremove: yes
+    force_apt_get: yes
+
+- name: Fix broken/missing packages
+  shell: apt-get update && apt-get install -f -y --fix-missing
+  become: true
+
 - name: Update and upgrade apt packages
   apt:
     update_cache: yes
@@ -7,10 +18,8 @@
 - name: Install required packages
   apt:
     name:
-      - git
       - openjdk-17-jdk
       - docker.io
-      - ansible
       - nodejs
       - npm
     state: present
