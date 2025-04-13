@@ -88,13 +88,23 @@ kubectl apply -f backend-deployment.yaml
 kubectl apply -f backend-service.yaml
 kubectl apply -f frontend-deployment.yaml
 kubectl apply -f frontend-service.yaml
-## Setup & Deployment
-### Prerequisites
-- use this Ansible Playbook in this repo:https://github.com/MaiMHanafi/Pre-requisites-SMT-Configuration.git to install all the pre-requisites.
-- **Docker & Docker Compose** installed on the host machine.
-- **Jenkins** with necessary plugins for pipeline execution.
-- **Configured SMTP settings** for email notifications.
+```
 
+### ✅ To verify all resources are running:
+```sh
+kubectl get all
+```
+
+### 🌐 To access the web application in your browser:
+Start Minikube and retrieve its IP:
+
+```sh
+minikube start
+```
+then access frontend via:
+```sh
+http://<minikube-ip>:30080/
+```
 ### Steps to Run Locally
 1. Clone the repository:
    ```sh
