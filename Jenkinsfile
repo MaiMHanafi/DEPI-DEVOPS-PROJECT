@@ -47,11 +47,11 @@ pipeline {
     post {
         success {
             echo '✅ Deployment completed successfully!'
-            sh 'echo "This is to notify you that it\'s a SUCCESSFUL Deployment" | mail -s "Deployment: SUCCESS" maihanafi34@gmail.com'
+            sh 'echo "This is to notify you that it\'s a SUCCESSFUL Deployment" | mail -s "Deployment: SUCCESS" maihanafi34@gmail.com eng.afaf@gmail.com Menna_gaber@hotmail.com'
         }
         failure {
             echo '❌ Deployment failed! Check logs for errors.'
-            sh 'echo "This is to notify you that it\'s a FAILED Deployment" | mail -s "Deployment: FAILURE" maihanafi34@gmail.com'
+            sh 'echo "This is to notify you that it\'s a FAILED Deployment" | mail -s "Deployment: FAILURE" maihanafi34@gmail.com eng.afaf@gmail.com Menna_gaber@hotmail.com'
         }
     }
 }
